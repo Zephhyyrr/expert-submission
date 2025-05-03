@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_home">Home</string>
+    <string name="authors">author</string>
+    <string name="publish_year">year</string>
+    <string name="description">deskripsi</string>
+    <string name="favorite">favorite</string>
+</resources>
