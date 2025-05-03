@@ -22,4 +22,3 @@ class DetailViewModel(private val bookUseCase: BookUseCase) : ViewModel() {
         return bookUseCase.isFavorite(bookId).asLiveData()
     }
 }
-

@@ -8,8 +8,13 @@ import org.koin.dsl.module
 
 object FavoriteModuleProvider {
 
+    private var isLoaded = false
+
     fun loadFavoriteModule() {
-        loadKoinModules(favoriteModule)
+        if (!isLoaded) {
+            loadKoinModules(favoriteModule)
+            isLoaded = true
+        }
     }
 
     private val favoriteModule: Module = module {
