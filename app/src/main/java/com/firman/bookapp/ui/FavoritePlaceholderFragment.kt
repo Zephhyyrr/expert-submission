@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
+import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
 import com.firman.bookapp.R
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
@@ -22,7 +24,14 @@ class FavoritePlaceholderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadFavoriteModule()
+        val fragmentContainer = view.findViewById<FrameLayout>(R.id.fragment_container)
+        if (childFragmentManager.findFragmentById(R.id.fragment_container) == null) {
+            loadFavoriteModule()
+        } else {
+            val loadingGroup = view.findViewById<Group>(R.id.loading_group)
+            loadingGroup.visibility = View.GONE
+            fragmentContainer.visibility = View.VISIBLE
+        }
     }
 
     private fun loadFavoriteModule() {
@@ -40,23 +49,28 @@ class FavoritePlaceholderFragment : Fragment() {
 
         splitInstallManager.startInstall(request)
             .addOnSuccessListener {
-                // Module installation has started
+                navigateToRealFavoriteFragment()
             }
             .addOnFailureListener {
-                // Handle failure
             }
     }
 
     private fun navigateToRealFavoriteFragment() {
         try {
-            // Dynamically load the FavoriteFragment class
-            val fragmentClass = Class.forName("com.firman.favorite.ui.FavoriteFragment")
-            val fragment = fragmentClass.newInstance() as Fragment
+            view?.let { view ->
+                val loadingGroup = view.findViewById<Group>(R.id.loading_group)
+                val fragmentContainer = view.findViewById<FrameLayout>(R.id.fragment_container)
 
-            // Replace this placeholder with the real fragment
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment, fragment)
-                .commit()
+                loadingGroup.visibility = View.GONE
+                fragmentContainer.visibility = View.VISIBLE
+
+                val fragmentClass = Class.forName("com.firman.favorite.ui.FavoriteFragment")
+                val fragment = fragmentClass.newInstance() as Fragment
+
+                childFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

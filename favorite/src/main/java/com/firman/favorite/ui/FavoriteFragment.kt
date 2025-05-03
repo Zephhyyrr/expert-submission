@@ -2,6 +2,7 @@ package com.firman.favorite.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,10 +43,7 @@ class FavoriteFragment : Fragment() {
 
     private fun setupAdapter() {
         bookAdapter = FavoriteBookAdapter { selectedBook ->
-            val intent =
-                Intent(activity, Class.forName("com.firman.bookapp.ui.detail.DetailActivity"))
-            intent.putExtra("EXTRA_BOOK_ID", selectedBook.id)
-            startActivity(intent)
+            navigateToDetail(selectedBook)
         }
 
         with(binding.rvFavorite) {
@@ -55,14 +53,48 @@ class FavoriteFragment : Fragment() {
         }
     }
 
+    private fun navigateToDetail(selectedBook: Book) {
+        try {
+            // Make sure we have a valid context
+            val context = requireContext()
+
+            // Create the intent with the fully qualified class name
+            val detailIntent = Intent().apply {
+                setClassName(
+                    "com.firman.bookapp",
+                    "com.firman.bookapp.ui.detail.DetailActivity"
+                )
+                putExtra("EXTRA_BOOK_ID", selectedBook.id)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+
+            // Start the activity
+            context.startActivity(detailIntent)
+
+        } catch (e: Exception) {
+            Log.e("FavoriteFragment", "Error navigating to detail: ${e.message}", e)
+            // You could show a toast or snackbar here to inform the user
+        }
+    }
+
     private fun observeData() {
         favoriteViewModel.favoriteBooks.observe(viewLifecycleOwner) { books ->
             bookAdapter.submitList(books)
+
+            // Update empty state visibility if needed
+            if (books.isNullOrEmpty()) {
+                // Show empty state
+                binding.rvFavorite.visibility = View.GONE
+                // If you have an empty state view, show it here
+            } else {
+                binding.rvFavorite.visibility = View.VISIBLE
+                // If you have an empty state view, hide it here
+            }
         }
     }
 
     override fun onDestroyView() {
-            super.onDestroyView()
-            _binding = null
-        }
+        super.onDestroyView()
+        _binding = null
+    }
 }
