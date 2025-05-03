@@ -57,6 +57,7 @@ dependencies {
     implementation (libs.androidx.lifecycle.livedata.ktx)
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation(project(":core"))
+//    implementation(project(":favorite"))
     implementation(libs.github.glide)
     //noinspection RiskyLibrary
     implementation(libs.feature.delivery)

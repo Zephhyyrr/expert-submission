@@ -7,16 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firman.bookapp.ui.detail.DetailActivity
-import com.firman.bookapp.ui.BookAdapter
+import com.firman.core.domain.model.Book
 import com.firman.favorite.databinding.FragmentFavoriteBinding
+import com.firman.favorite.adapter.FavoriteBookAdapter
+import com.firman.favorite.di.FavoriteModuleProvider
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : Fragment() {
 
+    init {
+        FavoriteModuleProvider.loadFavoriteModule()
+    }
+
     private val favoriteViewModel: FavoriteViewModel by viewModel()
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
+    private lateinit var bookAdapter: FavoriteBookAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,10 +36,15 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bookAdapter = BookAdapter()
-        bookAdapter.onItemClick = { selectedBook ->
-            val intent = Intent(activity, DetailActivity::class.java)
-            intent.putExtra(DetailActivity.EXTRA_BOOK_ID, selectedBook.id)
+        setupAdapter()
+        observeData()
+    }
+
+    private fun setupAdapter() {
+        bookAdapter = FavoriteBookAdapter { selectedBook ->
+            val intent =
+                Intent(activity, Class.forName("com.firman.bookapp.ui.detail.DetailActivity"))
+            intent.putExtra("EXTRA_BOOK_ID", selectedBook.id)
             startActivity(intent)
         }
 
@@ -42,14 +53,16 @@ class FavoriteFragment : Fragment() {
             setHasFixedSize(true)
             adapter = bookAdapter
         }
+    }
 
+    private fun observeData() {
         favoriteViewModel.favoriteBooks.observe(viewLifecycleOwner) { books ->
-            bookAdapter.setData(books)
+            bookAdapter.submitList(books)
         }
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+            super.onDestroyView()
+            _binding = null
+        }
 }

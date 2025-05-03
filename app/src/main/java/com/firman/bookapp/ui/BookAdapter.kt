@@ -35,27 +35,6 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
     override fun getItemCount(): Int = listData.size
 
-    fun mapToBook(doc: Map<String, Any>): Book {
-        val id = doc["key"] as String
-        val title = doc["title"] as String
-        val authors = (doc["author_name"] as List<String>).takeIf { it.isNotEmpty() } ?: listOf("Unknown Author")
-        val coverId = (doc["cover_i"] as? Int)?.let { it.toString() } ?: ""
-        val coverUrl = if (coverId.isNotEmpty()) "https://covers.openlibrary.org/b/id/$coverId-L.jpg" else null
-        val description = doc["description"] as? String
-        val publishYear = (doc["first_publish_year"] as? Int)
-
-        return Book(
-            id = id,
-            title = title,
-            authors = authors,
-            coverUrl = coverUrl,
-            description = description,
-            publishYear = publishYear,
-            isFavorite = false
-        )
-    }
-
-
     inner class BookViewHolder(private val binding: ItemBookBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
