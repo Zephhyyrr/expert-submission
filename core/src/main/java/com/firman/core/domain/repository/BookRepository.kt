@@ -1,6 +1,5 @@
 package com.firman.core.domain.repository
 
-import android.util.Log
 import com.firman.core.data.Resource
 import com.firman.core.data.source.local.LocalDataSource
 import com.firman.core.data.source.remote.ApiResponse
@@ -13,7 +12,6 @@ class BookRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ) : BookRepositoryImpl {
-
 
     override fun searchBooks(query: String): Flow<Resource<List<Book>>> {
         return flow {
@@ -30,12 +28,11 @@ class BookRepository(
                     }
 
                     is ApiResponse.Error -> {
-                        emit(Resource.Error<List<Book>>(apiResponse.errorMessage))
+                        emit(Resource.Error(apiResponse.errorMessage))
                     }
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Error in searchBooks: ${e.message}")
-                emit(Resource.Error<List<Book>>("Failed to search books: ${e.message}"))
+                emit(Resource.Error("Failed to search books: ${e.message}"))
             }
         }
     }
@@ -44,83 +41,48 @@ class BookRepository(
         return flow {
             emit(Resource.Loading())
             try {
-                // 1. Get book detail
-                Log.d(TAG, "Fetching detail for book ID: $bookId")
                 val detailResponse = remoteDataSource.getBookDetail(bookId).first()
-
                 when (detailResponse) {
                     is ApiResponse.Success -> {
-                        // 2. Check if book is favorite
                         val isFavorite = localDataSource.isFavorite(bookId).first()
-                        Log.d(TAG, "Book is favorite: $isFavorite")
 
-                        // 3. Get additional book information from search API if available
-                        var bookResponse = try {
+                        val bookResponse = try {
                             val title = detailResponse.data.title
-                            Log.d(TAG, "Searching for additional info with title: $title")
                             val searchResponse = remoteDataSource.searchBooks(title).first()
-
                             when (searchResponse) {
                                 is ApiResponse.Success -> {
-                                    // Try to find exact match by ID
-                                    val exactMatch = searchResponse.data.find {
-                                        it.key?.contains(bookId, ignoreCase = true) == true
-                                    }
-
-                                    if (exactMatch != null) {
-                                        Log.d(TAG, "Found exact match in search results")
-                                        exactMatch
-                                    } else if (searchResponse.data.isNotEmpty()) {
-                                        Log.d(TAG, "Using first search result as no exact match found")
-                                        searchResponse.data.first()
-                                    } else {
-                                        Log.d(TAG, "No search results found")
-                                        null
-                                    }
+                                    searchResponse.data.find {
+                                        it.key.contains(bookId, ignoreCase = true)
+                                    } ?: searchResponse.data.firstOrNull()
                                 }
-                                else -> {
-                                    Log.d(TAG, "Search API did not return results")
-                                    null
-                                }
+                                else -> null
                             }
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Error getting additional book data: ${e.message}")
+                        } catch (_: Exception) {
                             null
                         }
 
                         try {
-                            Log.d(TAG, "Mapping response to domain model")
                             val book = DataMapper.mapResponseToDomain(
                                 detailResponse.data,
                                 bookResponse,
                                 isFavorite
                             )
-
-                            Log.d(TAG, "Mapped book: id=${book.id}, title=${book.title}")
-                            Log.d(TAG, "Authors: ${book.authors?.joinToString() ?: "null"}")
-                            Log.d(TAG, "Publish Year: ${book.publishYear}")
-                            Log.d(TAG, "Cover URL: ${book.coverUrl}")
-
                             emit(Resource.Success(book))
                         } catch (e: Exception) {
-                            Log.e(TAG, "Error mapping book data: ${e.message}")
-                            emit(Resource.Error<Book>("Error processing book data: ${e.message}"))
+                            emit(Resource.Error("Error processing book data: ${e.message}"))
                         }
                     }
 
                     is ApiResponse.Empty -> {
-                        Log.d(TAG, "Book detail API returned empty response")
-                        emit(Resource.Error<Book>("Book not found"))
+                        emit(Resource.Error("Book not found"))
                     }
 
                     is ApiResponse.Error -> {
-                        Log.e(TAG, "Book detail API error: ${detailResponse.errorMessage}")
-                        emit(Resource.Error<Book>(detailResponse.errorMessage))
+                        emit(Resource.Error(detailResponse.errorMessage))
                     }
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "Unexpected error in getBookDetail: ${e.message}")
-                emit(Resource.Error<Book>(e.message ?: "Unknown error occurred"))
+                emit(Resource.Error(e.message ?: "Unknown error occurred"))
             }
         }
     }
@@ -139,9 +101,4 @@ class BookRepository(
     override fun isFavorite(bookId: String): Flow<Boolean> {
         return localDataSource.isFavorite(bookId)
     }
-
-    companion object {
-        private val TAG = "BookRepository"
-    }
 }
-

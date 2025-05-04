@@ -19,9 +19,9 @@ data class BookResponse(
 data class BookDetailResponse(
     val key: String,
     val title: String,
-    val cover_id: Any? = null,  // Changed to Any to handle both String and List<String>
-    val first_publish_year: Any? = null,  // Changed to Any to handle both Int and String
-    val description: Any? = null,  // Changed to Any to handle both String and Map
+    val cover_id: Any? = null,
+    val first_publish_year: Any? = null,
+    val description: Any? = null,
     val authors: List<AuthorReference>? = null
 )
 
