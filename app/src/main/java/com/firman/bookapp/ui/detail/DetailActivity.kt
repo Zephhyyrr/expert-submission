@@ -60,7 +60,7 @@ class DetailActivity : AppCompatActivity() {
 
         with(binding) {
             tvTitle.text = book.title ?: "No Title Available"
-            tvAuthors.text = book.authors.joinToString(", ") ?: "No Author Available"
+            tvAuthors.text = book.authors?.joinToString(", ") ?: "No Author Available"
             tvPublishYear.text = book.publishYear?.toString() ?: "No Publish Year Available"
             tvDescription.text = book.description ?: "No Description Available"
 

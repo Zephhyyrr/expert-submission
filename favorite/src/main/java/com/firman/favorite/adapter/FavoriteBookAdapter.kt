@@ -35,7 +35,7 @@ class FavoriteBookAdapter(private var onItemClick: (Book) -> Unit) :
                     .load(book.coverUrl)
                     .into(ivItemImage)
 
-                tvAuthorsName.text = book.authors.joinToString(", ")
+                tvAuthorsName.text = book.authors?.joinToString(", ")
 
                 if (book.publishYear != null) {
                     tvYear.text = book.publishYear.toString()

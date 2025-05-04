@@ -41,7 +41,7 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
         fun bind(book: Book) {
             with(binding) {
                 tvTitle.text = book.title
-                tvAuthors.text = book.authors.joinToString(", ")
+                tvAuthors.text = book.authors?.joinToString(", ")
                 tvYear.text = book.publishYear?.toString() ?: "Unknown"
 
                 Glide.with(itemView.context)
