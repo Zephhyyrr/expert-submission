@@ -1,12 +1,12 @@
 package com.firman.core.di
 
 import androidx.room.Room
-import com.firman.core.data.repository.BookRepository
+import com.firman.core.domain.repository.BookRepository
 import com.firman.core.data.source.local.LocalDataSource
 import com.firman.core.data.source.local.room.BookDatabase
 import com.firman.core.data.source.remote.ApiService
 import com.firman.core.data.source.remote.RemoteDataSource
-import com.firman.core.domain.repository.IBookRepository
+import com.firman.core.domain.repository.BookRepositoryImpl
 import com.firman.core.domain.usecase.BookInteractor
 import com.firman.core.domain.usecase.BookUseCase
 import okhttp3.OkHttpClient
@@ -48,7 +48,7 @@ val networkModule = module {
 val repositoryModule = module {
     single { LocalDataSource(get()) }
     single { RemoteDataSource(get()) }
-    single<IBookRepository> { BookRepository(get(), get()) }
+    single<BookRepositoryImpl> { BookRepository(get(), get()) }
 }
 
 val useCaseModule = module {

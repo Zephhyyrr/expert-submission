@@ -1,18 +1,17 @@
-package com.firman.core.data.repository
+package com.firman.core.domain.repository
 
 import com.firman.core.data.Resource
 import com.firman.core.data.source.local.LocalDataSource
 import com.firman.core.data.source.remote.ApiResponse
 import com.firman.core.data.source.remote.RemoteDataSource
 import com.firman.core.domain.model.Book
-import com.firman.core.domain.repository.IBookRepository
 import com.firman.core.utils.DataMapper
 import kotlinx.coroutines.flow.*
 
 class BookRepository(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
-) : IBookRepository {
+) : BookRepositoryImpl {
 
     override fun searchBooks(query: String): Flow<Resource<List<Book>>> {
         return flow {

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.firman.bookapp.databinding.ItemBookBinding
 import com.firman.core.domain.model.Book
-import com.firman.bookapp.R // Pastikan R diimpor dengan benar
+import com.firman.bookapp.R
 
 class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 

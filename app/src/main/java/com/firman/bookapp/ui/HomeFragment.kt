@@ -60,6 +60,7 @@ class HomeFragment : Fragment() {
                         bookAdapter.setData(it)
                     }
                 }
+
                 is Resource.Error -> {
                     showLoading(false)
                 }

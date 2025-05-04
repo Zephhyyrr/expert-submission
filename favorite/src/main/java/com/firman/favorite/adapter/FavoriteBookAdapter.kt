@@ -1,5 +1,6 @@
 package com.firman.favorite.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -25,6 +26,7 @@ class FavoriteBookAdapter(private var onItemClick: (Book) -> Unit) :
     inner class ViewHolder(private val binding: ItemBookBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SetTextI18n")
         fun bind(book: Book) {
             binding.apply {
                 tvItemTitle.text = book.title

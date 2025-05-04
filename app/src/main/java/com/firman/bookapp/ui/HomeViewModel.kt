@@ -16,8 +16,4 @@ class HomeViewModel(private val bookUseCase: BookUseCase) : ViewModel() {
     val books: LiveData<Resource<List<Book>>> = _searchQuery.switchMap { query ->
         bookUseCase.searchBooks(query).asLiveData()
     }
-
-    fun setSearchQuery(query: String) {
-        _searchQuery.value = query
-    }
 }

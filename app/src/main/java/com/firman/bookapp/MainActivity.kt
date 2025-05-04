@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Set the Toolbar as ActionBar
         setSupportActionBar(binding.toolbar)
 
         val navView: BottomNavigationView = binding.navView
@@ -38,14 +37,12 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        // Preload favorite module if not already loaded
         preloadFavoriteModule()
     }
 
     private fun preloadFavoriteModule() {
         val splitInstallManager = SplitInstallManagerFactory.create(this)
         if (!splitInstallManager.installedModules.contains("favorite")) {
-            // Start loading module in background
             val request = com.google.android.play.core.splitinstall.SplitInstallRequest.newBuilder()
                 .addModule("favorite")
                 .build()
