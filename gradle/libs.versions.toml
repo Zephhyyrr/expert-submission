@@ -1,6 +1,7 @@
 [versions]
 agp = "8.7.3"
 androidDatabaseSqlcipher = "4.5.4"
+#noinspection RiskyLibrary
 core = "1.10.3"
 desugar_jdk_libs = "2.1.5"
 featureDelivery = "2.1.0"
@@ -15,7 +16,6 @@ lifecycleLivedataKtx = "2.8.7"
 material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
-navigationDynamicFeaturesFragment = "2.7.7"
 navigationFragmentKtx = "2.8.9"
 recyclerview = "1.4.0"
 retrofit = "2.9.0"
@@ -26,7 +26,7 @@ okhttp = "4.12.0"
 glideVersion = "4.16.0"
 lifecycleLivedata = "2.8.7"
 securePreferencesLib = "0.1.7"
-securityCrypto = "1.1.0-alpha02"
+securityCrypto = "1.1.0-alpha07"
 sqlite = "2.5.0"
 
 [libraries]
@@ -35,7 +35,6 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-navigation-dynamic-features-fragment = { module = "androidx.navigation:navigation-dynamic-features-fragment", version.ref = "navigationFragmentKtx" }
-androidx-navigation-dynamic-features-fragment-v277 = { module = "androidx.navigation:navigation-dynamic-features-fragment", version.ref = "navigationDynamicFeaturesFragment" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
@@ -44,7 +43,6 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 androidx-sqlite = { module = "androidx.sqlite:sqlite", version.ref = "sqlite" }
 app-update = { module = "com.google.android.play:app-update", version.ref = "featureDelivery" }
-core = { module = "com.google.android.play:core", version.ref = "core" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 feature-delivery = { module = "com.google.android.play:feature-delivery", version.ref = "featureDelivery" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib" }

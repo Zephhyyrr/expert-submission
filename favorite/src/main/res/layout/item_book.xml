@@ -21,6 +21,7 @@
             android:id="@+id/ivItemImage"
             android:layout_width="80dp"
             android:layout_height="120dp"
+            android:contentDescription="@string/book_cover"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
