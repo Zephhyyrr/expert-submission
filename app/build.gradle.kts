@@ -74,4 +74,6 @@ dependencies {
     implementation(libs.androidx.security.crypto)
 
     coreLibraryDesugaring (libs.desugar.jdk.libs)
+
+    debugImplementation (libs.leakcanary.android)
 }
