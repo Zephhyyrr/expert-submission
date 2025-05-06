@@ -1,5 +1,6 @@
 package com.firman.favorite.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +18,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteFragment : Fragment() {
 
-    init {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         FavoriteModuleProvider.loadFavoriteModule()
     }
 
@@ -92,4 +94,5 @@ class FavoriteFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

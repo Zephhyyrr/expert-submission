@@ -20,19 +20,24 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
+//        debug {
+//            isMinifyEnabled = true
+//            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+//
+//        }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
     buildFeatures{
         viewBinding = true
@@ -41,7 +46,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -54,13 +58,22 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    implementation (libs.androidx.lifecycle.livedata.ktx)
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(project(":core"))
 //    implementation(project(":favorite"))
     implementation(libs.github.glide)
+
+    // Play Core libraries
     //noinspection RiskyLibrary
     implementation(libs.feature.delivery)
     implementation(libs.app.update)
     implementation(libs.androidx.navigation.dynamic.features.fragment)
+
+    // Keamanan tambahan untuk app level (jika diperlukan)
+    implementation(libs.androidx.security.crypto)
+
+    coreLibraryDesugaring (libs.desugar.jdk.libs)
+
+    debugImplementation (libs.leakcanary.android)
 }
