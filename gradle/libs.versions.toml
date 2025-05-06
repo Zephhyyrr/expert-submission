@@ -1,6 +1,8 @@
 [versions]
 agp = "8.7.3"
+androidDatabaseSqlcipher = "4.5.4"
 core = "1.10.3"
+desugar_jdk_libs = "2.1.5"
 featureDelivery = "2.1.0"
 kotlin = "2.1.20"
 coreKtx = "1.16.0"
@@ -22,8 +24,12 @@ koin = "3.5.3"
 okhttp = "4.12.0"
 glideVersion = "4.16.0"
 lifecycleLivedata = "2.8.7"
+securePreferencesLib = "0.1.7"
+securityCrypto = "1.1.0-alpha02"
+sqlite = "2.5.0"
 
 [libraries]
+android-database-sqlcipher = { module = "net.zetetic:android-database-sqlcipher", version.ref = "androidDatabaseSqlcipher" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleLivedataKtx" }
@@ -34,8 +40,11 @@ androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx",
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
+androidx-sqlite = { module = "androidx.sqlite:sqlite", version.ref = "sqlite" }
 app-update = { module = "com.google.android.play:app-update", version.ref = "featureDelivery" }
 core = { module = "com.google.android.play:core", version.ref = "core" }
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 feature-delivery = { module = "com.google.android.play:feature-delivery", version.ref = "featureDelivery" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
@@ -53,6 +62,7 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 github-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
 androidx-lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata", version.ref = "lifecycleLivedata" }
+secure-preferences-lib = { module = "com.scottyab:secure-preferences-lib", version.ref = "securePreferencesLib" }
 
 
 [plugins]

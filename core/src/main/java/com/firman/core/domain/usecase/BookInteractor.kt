@@ -1,10 +1,9 @@
 package com.firman.core.domain.usecase
 
 import com.firman.core.domain.model.Book
-import com.firman.core.domain.repository.BookRepositoryImpl
+import com.firman.core.domain.repository.BookRepository
 
-
-class BookInteractor(private val bookRepository: BookRepositoryImpl) : BookUseCase {
+class BookInteractor(private val bookRepository: BookRepository) : BookUseCase {
     override fun searchBooks(query: String) = bookRepository.searchBooks(query)
     override fun getBookDetail(bookId: String) = bookRepository.getBookDetail(bookId)
     override fun getFavoriteBooks() = bookRepository.getFavoriteBooks()

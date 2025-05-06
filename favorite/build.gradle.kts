@@ -24,12 +24,13 @@ android {
         viewBinding = true
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+
     }
 }
 
@@ -48,4 +49,6 @@ dependencies {
     implementation(libs.koin.android)
     implementation(project(":core"))
     implementation(libs.androidx.recyclerview)
+
+    coreLibraryDesugaring (libs.desugar.jdk.libs)
 }
