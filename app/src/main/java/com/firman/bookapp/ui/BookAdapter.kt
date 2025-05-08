@@ -1,5 +1,6 @@
 package com.firman.bookapp.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.firman.bookapp.databinding.ItemBookBinding
 import com.firman.core.domain.model.Book
 import com.firman.bookapp.R
+import java.lang.ref.WeakReference
 
 class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
@@ -21,6 +23,12 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
         listData.clear()
         listData.addAll(newListData)
         diffResult.dispatchUpdatesTo(this)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun clearData() {
+        listData.clear()
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
@@ -44,11 +52,16 @@ class BookAdapter : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
                 tvAuthors.text = book.authors
                 tvYear.text = book.publishYear?.toString() ?: "Unknown"
 
-                Glide.with(itemView.context)
-                    .load(book.coverUrl ?: R.drawable.ic_book_placeholder)
-                    .placeholder(R.drawable.ic_book_placeholder)
-                    .error(R.drawable.ic_book_placeholder)
-                    .into(ivBook)
+                // Use try-catch to prevent potential Glide issues
+                try {
+                    Glide.with(itemView.context)
+                        .load(book.coverUrl ?: R.drawable.ic_book_placeholder)
+                        .placeholder(R.drawable.ic_book_placeholder)
+                        .error(R.drawable.ic_book_placeholder)
+                        .into(ivBook)
+                } catch (e: Exception) {
+                    ivBook.setImageResource(R.drawable.ic_book_placeholder)
+                }
             }
         }
 

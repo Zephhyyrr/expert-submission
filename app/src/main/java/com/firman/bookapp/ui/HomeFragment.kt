@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firman.bookapp.databinding.FragmentHomeBinding
@@ -18,7 +17,7 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModel()
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val bookAdapter = BookAdapter()
+    private var bookAdapter: BookAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,11 +30,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupAdapter()
         setupRecyclerView()
         observeBooks()
+    }
 
-
-        bookAdapter.onItemClick = { selectedBook ->
+    private fun setupAdapter() {
+        bookAdapter = BookAdapter()
+        bookAdapter?.onItemClick = { selectedBook ->
             val intent = Intent(requireActivity(), DetailActivity::class.java)
             intent.putExtra(DetailActivity.EXTRA_BOOK_ID, selectedBook.id)
             startActivity(intent)
@@ -57,10 +59,9 @@ class HomeFragment : Fragment() {
                 is Resource.Success -> {
                     showLoading(false)
                     result.data?.let {
-                        bookAdapter.setData(it)
+                        bookAdapter?.setData(it)
                     }
                 }
-
                 is Resource.Error -> {
                     showLoading(false)
                 }
@@ -73,9 +74,12 @@ class HomeFragment : Fragment() {
         binding.rvBooks.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 
-
     override fun onDestroyView() {
-        super.onDestroyView()
+        bookAdapter?.clearData()
+        binding.rvBooks.adapter = null
+        bookAdapter?.onItemClick = null
+        bookAdapter = null
         _binding = null
+        super.onDestroyView()
     }
 }

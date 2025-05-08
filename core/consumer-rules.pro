@@ -1,5 +1,6 @@
 # Keep model classes
 -keep class com.firman.core.domain.model.** { *; }
+-keep class com.firman.core.data.source.remote.response.** { *; }
 
 # Keep Retrofit service interfaces
 -keep,allowobfuscation interface com.firman.core.data.source.remote.ApiService
@@ -38,3 +39,6 @@
 
 # Keep your ViewModel classes
 -keep class com.firman.favorite.ui.** { *; }
+-keep class com.firman.favorite.viewmodel.** { *; }
+
+-keep class com.firman.bookapp.ui.** { *; }

@@ -17,13 +17,11 @@ class HomeViewModel(private val bookUseCase: BookUseCase) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("android")
 
-    // Versi 1: Menggunakan Flow API langsung
     @OptIn(ExperimentalCoroutinesApi::class)
     val booksFlow = _searchQuery.flatMapLatest { query ->
         bookUseCase.searchBooks(query)
     }
 
-    // Versi 2: Menggunakan LiveData transformation alternatif
     private val _books = MutableLiveData<Resource<List<Book>>>()
     val books: LiveData<Resource<List<Book>>> = _books
 
